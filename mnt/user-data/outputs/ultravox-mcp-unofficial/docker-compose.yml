@@ -1,0 +1,89 @@
+# Docker Compose configuration for Ultravox MCP
+# Usage: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # Main Ultravox MCP Server
+  ultravox-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: ultravox-mcp
+    
+    # Environment variables from .env file
+    env_file:
+      - .env
+    
+    # Additional environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DEBUG=${DEBUG:-false}
+    
+    # Port mapping
+    ports:
+      - "8000:8000"
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Volumes for persistence
+    volumes:
+      - ./logs:/app/logs
+      - ./cache:/app/cache:rw
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Network
+    networks:
+      - ultravox-network
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+
+# Networks
+networks:
+  ultravox-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  cache:
+    driver: local
+  logs:
+    driver: local
+
+# Useful commands:
+# docker-compose up -d              # Start services in background
+# docker-compose down               # Stop and remove services
+# docker-compose logs -f            # View logs (follow)
+# docker-compose ps                 # View running services
+# docker-compose exec ultravox-mcp python -c "import sys; print(sys.version)"
+# docker-compose build --no-cache  # Rebuild without cache

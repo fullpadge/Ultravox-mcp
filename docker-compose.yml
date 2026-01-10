@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  ultravox-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: ultravox-mcp
+    
+    environment:
+      # Required: Set your API key here or in .env file
+      ULTRAVOX_API_KEY: ${ULTRAVOX_API_KEY:-your_api_key_here}
+      
+      # Optional settings
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DEBUG: ${DEBUG:-false}
+      MCP_PORT: ${MCP_PORT:-8000}
+    
+    ports:
+      - "${MCP_PORT:-8000}:8000"
+    
+    volumes:
+      # Mount logs directory
+      - ./logs:/app/logs
+      
+      # Mount data directory (if using database)
+      - ./data:/app/data
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Labels for organization
+    labels:
+      - "com.example.description=Ultravox MCP Server"
+      - "com.example.version=1.0.0"
+
+# Optional: Add Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: ultravox-nginx
+    
+    ports:
+      - "80:80"
+      - "443:443"
+    
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    
+    depends_on:
+      - ultravox-mcp
+    
+    restart: unless-stopped
+    
+    # Uncomment below if you want to use Nginx
+    # profiles: ["nginx"]
+
+# Volumes for persistence
+volumes:
+  logs:
+    driver: local
+  data:
+    driver: local
+
+# Networks
+networks:
+  default:
+    name: ultravox-network

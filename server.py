@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Serveur MCP Ultravox - VERSION COMPLÈTE AVEC 30 TOOLS
 Fonctionne avec OU SANS FastMCP + httpx

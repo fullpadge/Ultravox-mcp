@@ -1,0 +1,102 @@
+name: Tests & Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov black flake8 mypy
+    
+    - name: Lint with flake8
+      run: |
+        flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 src/ tests/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Format check with black
+      run: |
+        black --check src/ tests/ || true
+    
+    - name: Type check with mypy
+      run: |
+        mypy src/ --ignore-missing-imports || true
+    
+    - name: Run tests
+      run: |
+        pytest tests/ -v --cov=src --cov-report=xml --cov-report=html
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Run Bandit security check
+      run: |
+        pip install bandit
+        bandit -r src/ -ll || true
+    
+    - name: Check for API keys
+      run: |
+        if grep -r "api_key\|API_KEY\|ULTRAVOX_API_KEY" src/ --include="*.py" | grep -v "\.env\|os.getenv\|environ"; then
+          echo "⚠️ WARNING: Potential hardcoded API key found!"
+          exit 1
+        fi
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Build Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false
+        tags: ultravox-mcp:test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  changelog:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Check CHANGELOG update
+      run: |
+        if git diff origin/main HEAD -- CHANGELOG.md | grep -q "^+"; then
+          echo "✅ CHANGELOG has been updated"
+        else
+          echo "⚠️ WARNING: CHANGELOG was not updated"
+          exit 1
+        fi

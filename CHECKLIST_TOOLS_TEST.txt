@@ -1,0 +1,236 @@
+================================================================================
+                    ULTRAVOX MCP v30 - CHECKLIST DE TEST
+                           29 TOOLS À VALIDER
+================================================================================
+
+📅 Date: 2026-01-10
+🎯 Objectif: Valider le fonctionnement de chaque tool
+📊 Statut global: EN COURS
+
+
+================================================================================
+ACCOUNT & SYSTEM (2/2)
+================================================================================
+
+[✅] get_account_info
+     - Récupère les infos du compte
+     - Retour attendu: name, billingUrl, freeTimeUsed, freeTimeRemaining, etc.
+     - Testé: OUI (2026-01-10 18:22 UTC)
+     - Status: ✅ VALIDÉ
+
+[❌] get_open_api_schema
+     - Récupère le schéma OpenAPI de l'API
+     - Retour attendu: success: true, paths_count, schemas_count
+     - Testé: OUI (2026-01-10 18:50 UTC)
+     - Status: ❌ NON DISPONIBLE (Endpoint 404 - API n'expose pas le schéma)
+
+
+================================================================================
+CALLS (9/9)
+================================================================================
+
+[✅] list_calls(limit: int = 20)
+     - Liste les appels avec limite optionnelle
+     - Retour attendu: next, previous, total, results: [...]
+     - Testé: OUI (2026-01-10 18:51 UTC)
+     - Status: ✅ VALIDÉ (3 appels retournés)
+
+[ ] get_call(call_id: str)
+     - Récupère les détails d'un appel spécifique
+     - Retour attendu: callId, created, joined, ended, model, etc.
+     - Testé: OUI (2026-01-10 18:52 UTC)
+     - Status: ✅ VALIDÉ
+
+[✅] get_call_messages(call_id: str, limit: int = 20)
+     - Récupère les messages transcripts d'un appel
+     - Retour attendu: messages avec timestamps et contenu
+     - Testé: OUI (2026-01-10 18:53 UTC)
+     - Status: ✅ VALIDÉ (15 messages retournés avec transcription complète)
+
+[✅] get_call_recording(call_id: str)
+     - Récupère l'enregistrement audio d'un appel
+     - Retour attendu: success: true, url, content_type, size
+     - Testé: OUI (2026-01-10 18:47 UTC)
+     - Status: ✅ VALIDÉ (avec follow_redirects=True)
+
+[✅] get_call_tools(call_id: str)
+     - Récupère les outils utilisés dans un appel
+     - Retour attendu: tools utilisés et leurs paramètres
+     - Testé: OUI (2026-01-10 18:54 UTC)
+     - Status: ✅ VALIDÉ (0 tools utilisés dans cet appel)
+
+[✅] get_call_stages(call_id: str)
+     - Récupère les étapes (stages) d'un appel
+     - Retour attendu: stages avec IDs et descriptions
+     - Testé: OUI (2026-01-10 18:56 UTC)
+     - Status: ✅ VALIDÉ (1 stage avec détails complets)
+
+[✅] get_call_stage(call_id: str, stage_id: str)
+     - Récupère les détails d'une étape spécifique
+     - Retour attendu: stage détails avec contenu
+     - Testé: OUI (2026-01-10 18:57 UTC)
+     - Status: ✅ VALIDÉ (détails complets retournés)
+
+[✅] get_stage_messages(call_id: str, stage_id: str, limit: int = 20)
+     - Récupère les messages d'une étape spécifique
+     - Retour attendu: messages de l'étape
+     - Testé: OUI (2026-01-10 18:58 UTC)
+     - Status: ✅ VALIDÉ (15 messages retournés avec transcription)
+
+[✅] delete_call(call_id: str) ⚠️ DESTRUCTIF
+     - Supprime un appel (IRREVOCABLE)
+     - Retour attendu: success: true, message: "Appel supprimé"
+     - Testé: OUI (2026-01-10 18:59 UTC)
+     - Status: ✅ VALIDÉ (DESTRUCTIF - Appel supprimé avec succès)
+
+
+================================================================================
+AGENTS (5/5)
+================================================================================
+
+[✅] list_agents(limit: int = 20)
+     - Liste tous les agents
+     - Retour attendu: agents avec IDs et noms
+     - Testé: OUI (2026-01-10 19:00 UTC)
+     - Status: ✅ VALIDÉ (2 agents retournés)
+
+[✅] get_agent(agent_id: str)
+     - Récupère les détails d'un agent
+     - Retour attendu: agentId, name, systemPrompt, etc.
+     - Testé: OUI (2026-01-10 19:01 UTC)
+     - Status: ✅ VALIDÉ (détails complets retournés)
+
+[✅] list_agent_calls(agent_id: str, limit: int = 20)
+     - Liste tous les appels d'un agent
+     - Retour attendu: appels de cet agent
+     - Testé: OUI (2026-01-10 19:02 UTC)
+     - Status: ✅ VALIDÉ (2 appels retournés pour agent_teste_mcp)
+
+[✅] update_agent_prompt(agent_id: str, prompt: str)
+     - Met à jour le system prompt d'un agent
+     - Retour attendu: success: true, updated agent
+     - Testé: OUI (2026-01-10 19:14 UTC)
+     - Status: ✅ VALIDÉ (prompt modifié pour agent_teste_mcp)
+
+[✅] delete_agent(agent_id: str) ⚠️ DESTRUCTIF
+     - Supprime un agent (IRREVOCABLE)
+     - Retour attendu: success: true, message: "Agent supprimé"
+     - Testé: OUI (2026-01-10 19:16 UTC)
+     - Status: ✅ VALIDÉ (DESTRUCTIF - Agent 8ee6151b-0b9f-417d-9093-480e2ca138c7 supprimé)
+
+
+================================================================================
+VOICES (2/2)
+================================================================================
+
+[✅] list_voices(limit: int = 20)
+     - Liste les voix disponibles
+     - Retour attendu: voix avec IDs, noms, langues
+     - Testé: OUI (2026-01-10 19:03 UTC)
+     - Status: ✅ VALIDÉ (162 voix disponibles! 2 providers, 20+ langues)
+
+[✅] get_voice(voice_id: str)
+     - Récupère les détails d'une voix
+     - Retour attendu: voiceId, name, language, provider
+     - Testé: OUI (2026-01-10 19:04 UTC)
+     - Status: ✅ VALIDÉ (détails complets de Crhysa retournés)
+
+
+================================================================================
+WEBHOOKS (4/4)
+================================================================================
+
+[✅] list_webhooks()
+     - Liste tous les webhooks configurés
+     - Retour attendu: webhooks avec URLs et events
+     - Testé: OUI (2026-01-10 19:06 UTC)
+     - Status: ✅ VALIDÉ (1 webhook retourné avec events call.ended, call.started)
+
+[✅] get_webhook(webhook_id: str)
+     - Récupère les détails d'un webhook
+     - Retour attendu: webhookId, url, events, etc.
+     - Testé: OUI (2026-01-10 19:07 UTC)
+     - Status: ✅ VALIDÉ (détails complets du webhook retournés)
+
+[✅] create_webhook(agent_id: str, url: str, events: list)
+     - Crée un nouveau webhook
+     - Retour attendu: success: true, created webhook
+     - Testé: OUI (2026-01-10 19:13 UTC)
+     - Status: ✅ VALIDÉ (webhook créé: f3b922da-a396-4ae5-84e3-415362895743)
+
+[✅] delete_webhook(webhook_id: str) ⚠️ DESTRUCTIF
+     - Supprime un webhook (IRREVOCABLE)
+     - Retour attendu: success: true, message: "Webhook supprimé"
+     - Testé: OUI (2026-01-10 19:15 UTC)
+     - Status: ✅ VALIDÉ (DESTRUCTIF - Webhook f3b922da-a396-4ae5-84e3-415362895743 supprimé)
+
+
+================================================================================
+DELETED CALLS (3/3)
+================================================================================
+
+[✅] get_deleted_calls(limit: int = 20)
+     - Récupère la liste des appels supprimés
+     - Retour attendu: appels supprimés
+     - Testé: OUI (2026-01-10 19:08 UTC)
+     - Status: ✅ VALIDÉ (1 appel supprimé retourné - celui qu'on vient de supprimer!)
+
+[✅] get_deleted_call(call_id: str)
+     - Récupère les détails d'un appel supprimé
+     - Retour attendu: appel supprimé avec métadonnées
+     - Testé: OUI (2026-01-10 19:09 UTC)
+     - Status: ✅ VALIDÉ (détails complets retournés avec deletionTime)
+
+[✅] list_deleted_calls_stream(limit: int = 20)
+     - Liste les appels supprimés avec pagination
+     - Retour attendu: appels supprimés avec curseur
+     - Testé: OUI (2026-01-10 19:13 UTC)
+     - Status: ✅ VALIDÉ (1 appel supprimé retourné avec pagination)
+
+
+================================================================================
+RESOURCES (3/3)
+================================================================================
+
+[✅] get_tools_list(limit: int = 20)
+     - Récupère la liste des outils disponibles
+     - Retour attendu: tools avec descriptions
+     - Testé: OUI (2026-01-10 19:10 UTC)
+     - Status: ✅ VALIDÉ (6 tools système retournés: transfer, voicemail, corpus, dtmf, hangup)
+
+[✅] get_tool(tool_id: str)
+     - Récupère les détails d'un outil
+     - Retour attendu: toolId, name, description, parameters
+     - Testé: OUI (2026-01-10 19:12 UTC)
+     - Status: ✅ VALIDÉ (détails complets du tool hangUp retournés)
+
+[ ] get_call_usage()
+     - Récupère l'utilisation des appels
+     - Retour attendu: usage statistics
+     - Testé: OUI (2026-01-10 19:11 UTC)
+     - Status: ❌ NON DISPONIBLE (API 404 - Endpoint n'existe pas)
+
+
+================================================================================
+MODELS (1/1)
+================================================================================
+
+[✅] list_models()
+     - Liste les modèles disponibles
+     - Retour attendu: models avec IDs et descriptions
+     - Testé: OUI (2026-01-10 19:05 UTC)
+     - Status: ✅ VALIDÉ (4 modèles retournés: v0.6, v0.6-gemma3, v0.6-llama3.3, v0.7)
+
+
+================================================================================
+RÉSUMÉ GLOBAL
+================================================================================
+
+✅ VALIDÉS: 27/29 (93.1%)
+❌ EN ATTENTE: 0/29 (0%)
+❌ NON DISPONIBLES: 2/29 (6.9%)
+⚠️  DESTRUCTIFS COMPLÉTÉS: 4 (delete_call ✅, delete_webhook ✅, delete_agent ✅, update_agent_prompt ✅)
+
+PROCHAINE ÉTAPE: Commencer les tests en ordre
+
+================================================================================
