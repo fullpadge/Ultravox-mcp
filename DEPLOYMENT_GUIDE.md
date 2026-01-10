@@ -254,8 +254,8 @@ examples/ folder:
 
 ═════════════════════════════════════════════════════════════════════════════
 
-Made by Claude for fullpadge
-Email: jeanslarose@gmail.com
+Made by Mak3it.org for fullpadge
+Email: hello@mak3it.org
 GitHub: https://github.com/fullpadge/Ultravox-mcp
 
 EOF
