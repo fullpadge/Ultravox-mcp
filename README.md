@@ -1,14 +1,30 @@
 # 🎤 Ultravox MCP - Unofficial
 
-[![Mak3it][(https://mak3it.org/wp-content/uploads/2025/08/logo-mak3it-white-scaled.png)](https://mak3it.org)
+<div align="center">
+  <img src="https://mak3it.org/wp-content/uploads/2025/08/logo-mak3it-white-scaled.png" alt="Mak3it Logo" width="200">
+  
+  **A powerful, unofficial Model Context Protocol (MCP) server for Ultravox Voice AI**
 
-**A powerful, unofficial Model Context Protocol (MCP) server for Ultravox Voice AI**
+  **Built with ❤️ by [Mak3it.org](https://mak3it.org)**
 
-**Built with ❤️ by [Mak3it.org](https://mak3it.org)**
+  [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![GitHub Stars](https://img.shields.io/github/stars/fullpadge/Ultravox-mcp.svg)](https://github.com/fullpadge/Ultravox-mcp)
+</div>
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Stars](https://img.shields.io/github/stars/fullpadge/Ultravox-mcp.svg)](https://github.com/fullpadge/Ultravox-mcp)
+---
+
+## 🎬 Demo Video
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=V0v74xxrmI8" target="_blank">
+    <img src="https://img.youtube.com/vi/V0v74xxrmI8/maxresdefault.jpg" alt="Ultravox MCP Demo" width="600">
+  </a>
+  
+  **[Watch the full demo on YouTube](https://www.youtube.com/watch?v=V0v74xxrmI8)**
+</div>
+
+---
 
 **[English](#english) | [Français](#français)**
 
