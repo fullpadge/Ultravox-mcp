@@ -55,7 +55,7 @@ ENV LOG_LEVEL=INFO
 ENV DEBUG=false
 
 # Run the server
-CMD ["python", "src/server.py"]
+CMD ["python", "ultravox_mcp_v30_FINAL.py"]
 
 # Labels for metadata
 LABEL maintainer="Ultravox MCP Community"
