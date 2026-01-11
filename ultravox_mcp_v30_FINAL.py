@@ -9,7 +9,7 @@ import sys
 import os
 
 # Configuration
-API_KEY = os.getenv("ULTRAVOX_API_KEY", "VJtcPzQd.t3wzaodHSgEtGHVUasa09LpnVWHQCfjh")
+API_KEY = os.getenv("ULTRAVOX_API_KEY", "VJtcPzQd.33zaodHSgEtGHVUasa09LpnVWHQCfjh")
 API_BASE = "https://api.ultravox.ai/api"
 
 # Essayer d'importer les modules
