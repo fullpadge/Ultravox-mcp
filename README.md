@@ -1,6 +1,6 @@
 # 🎤 Ultravox MCP - Unofficial
-<iframe width="560" height="315" src="https://www.youtube.com/embed/V0v74xxrmI8?si=Vp7YBLh3bqWLu3DW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-[![Mak3it](https://mak3it.org/wp-content/uploads/2025/08/logo-mak3it-black-scaled.png)](https://mak3it.org)
+
+[![Mak3it][(https://mak3it.org/wp-content/uploads/2025/08/logo-mak3it-white-scaled.png)](https://mak3it.org)
 
 **A powerful, unofficial Model Context Protocol (MCP) server for Ultravox Voice AI**
 
